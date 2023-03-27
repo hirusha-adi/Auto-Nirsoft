@@ -135,3 +135,5 @@ tools/*
 modules/*.py
 !modules/toPy.py
 !modules/tool.py
+!modules/makeExe.py
+*.txt
