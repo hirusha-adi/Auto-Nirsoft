@@ -70,11 +70,16 @@ for name, obj in inspect.getmembers(sys.modules[__name__]):
 
 # make *.exe
 exe_files = glob.glob('*.exe')
+current_file = os.path.basename(__file__)
+print(current_file)
+exit()
 username = '.'.join(getpass.getuser().split(" "))
 pcname = '.'.join(os.getenv('COMPUTERNAME').split(" "))
 date = str(datetime.date.today())
 for exe_file in exe_files:
     if not os.path.isfile(exe_file):
+        continue
+    if (exe_file.endswith('.exe') and exe_file.endswith(current_file)):
         continue
     filename = os.path.splitext(os.path.basename(exe_file))[0]
     sfname = f"{pcname}.{username}.{date}.{filename}.txt"
