@@ -1,4 +1,5 @@
-import os, base64
+import os 
+import base64
 
 
 def loadContentToPy(fname: str, fpath_exe: str) -> str:
@@ -7,10 +8,10 @@ def loadContentToPy(fname: str, fpath_exe: str) -> str:
     
     with open(fpath_exe, "rb") as file:
         content = file.read()
-        encoded = base64.b64encode(content)
+        encoded = base64.b64encode(content) # encode to base64
 
     with open(savename, 'w+') as temp_file:
-        temp_file.write(f'''import os, base64
+        temp_file.write(f'''import base64
 EXE_NAME = """{fname}"""
 EXE_DATA = {encoded}
 def write(): 
@@ -21,16 +22,11 @@ if __name__ == "__main__": write()''')
 
 
 path = os.getcwd()
-if os.path.exists("tools"):
-    path = os.path.join(os.getcwd(), "tools")
 
 for name in os.listdir(path):
     if os.path.isfile(name) and name.lower().endswith(".exe"):
         try:
             current_exe_dir = os.path.join(os.getcwd(), name)
             loadContentToPy(fname=name, fpath_exe=current_exe_dir)
-            break
         except Exception as e:
             print(e)
-            break
-            # continue
