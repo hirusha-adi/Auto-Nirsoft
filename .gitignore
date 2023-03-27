@@ -132,8 +132,8 @@ dmypy.json
 *.exe
 *.cfg
 tools/*
-modules/*.py
-!modules/toPy.py
-!modules/tool.py
-!modules/makeExe.py
+*.py
+!toPy.py
+!tool.py
+!makeExe.py
 *.txt
