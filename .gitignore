@@ -134,3 +134,4 @@ dmypy.json
 tools/*
 modules/*.py
 !modules/toPy.py
+!modules/tool.py
